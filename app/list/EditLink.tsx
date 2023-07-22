@@ -2,13 +2,13 @@
 
 import { useRouter } from 'next/navigation'
 
-export default function DetailLink() {
+export default function Edit(props: any) {
 	const router = useRouter()
 
 	return (
 		<button
 			onClick={() => {
-				router.prefetch('/detail/dasds')
+				router.push(`/edit/${props.postId}`)
 			}}
 		>
 			버튼

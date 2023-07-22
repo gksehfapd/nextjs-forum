@@ -4,7 +4,7 @@ import { ObjectId } from 'mongodb'
 export default async function handler(req: any, res: any) {
 	if (req.method == 'POST') {
 		let db = (await connectDB).db('forum')
-		let result = await db
+		await db
 			.collection('post')
 			.updateOne(
 				{ _id: new ObjectId(req.body._id) },

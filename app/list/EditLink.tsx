@@ -6,12 +6,12 @@ export default function Edit(props: any) {
 	const router = useRouter()
 
 	return (
-		<button
+		<span
 			onClick={() => {
 				router.push(`/edit/${props.postId}`)
 			}}
 		>
-			버튼
-		</button>
+			📝
+		</span>
 	)
 }

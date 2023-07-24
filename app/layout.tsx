@@ -15,6 +15,7 @@ export const metadata: Metadata = {
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
+	//@ts-ignore
 	let session = await getServerSession(authOptions)
 
 	return (

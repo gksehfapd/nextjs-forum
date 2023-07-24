@@ -10,6 +10,7 @@ export const revalidate = 60
 export default async function List() {
 	const db = (await connectDB).db('forum')
 	let result = await db.collection('post').find().toArray()
+	//@ts-ignore
 	let session = await getServerSession(authOptions)
 	console.log(session)
 	return (

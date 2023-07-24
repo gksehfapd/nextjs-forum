@@ -4,6 +4,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from './auth/[...nextauth]'
 
 export default async function handler(req: any, res: any) {
+	// @ts-ignore
 	let session = await getServerSession(req, res, authOptions)
 
 	if (req.method === 'POST') {

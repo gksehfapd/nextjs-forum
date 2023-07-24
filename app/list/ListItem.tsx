@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import EditLink from './EditLink'
 
-export default function ListItem({ result }: any) {
+export default function ListItem({ result, sessionEmail }: any) {
 	return (
 		<div>
 			{result.map((e: any) => {
@@ -13,7 +13,8 @@ export default function ListItem({ result }: any) {
 							<h4>{e.title}</h4>
 						</Link>
 						<p>{e.content}</p>
-						<EditLink postId={e._id.toString()} />
+						<p>{e.author}</p>
+						{sessionEmail === e.author ? <EditLink postId={e._id.toString()} /> : null}
 						<span
 							onClick={(event: any) => {
 								fetch('/api/delete', {

@@ -12,7 +12,7 @@ export default async function List() {
 	let result = await db.collection('post').find().toArray()
 	//@ts-ignore
 	let session = await getServerSession(authOptions)
-	console.log(session)
+
 	return (
 		<div className="list-bg">
 			<ListItem result={result} sessionEmail={session?.user?.email} />

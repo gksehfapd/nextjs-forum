@@ -8,8 +8,8 @@ import bcrypt from 'bcrypt'
 export const authOptions = {
 	providers: [
 		GithubProvider({
-			clientId: '007c24982ddb1a720d3c',
-			clientSecret: '0ef86ac8d2f12265583a7d998e7ca8e409bb413c'
+			clientId: process.env.GIT_CLIENT_ID,
+			clientSecret: process.env.GIT_CLIENT_SECRET
 		}),
 		CredentialsProvider({
 			//1. 로그인페이지 폼 자동생성해주는 코드
@@ -64,7 +64,7 @@ export const authOptions = {
 		}
 	},
 
-	secret: 'dkssudgktpdygksehdauddlqslek.',
+	secret: process.env.NEXTAUTH_SECRET,
 	adapter: MongoDBAdapter(connectDB)
 }
 // @ts-ignore

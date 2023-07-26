@@ -8,19 +8,16 @@ export default async function handler(req: any, res: any) {
 		const db = (await connectDB).db('forum')
 		//@ts-ignore
 		let session = await getServerSession(req, res, authOptions)
+		let userEmail = session.user.email
 
-		//세션으로 user의 ObjectID를 Mongo에서 가져옴
-		let userExist = await db.collection('user_cred').findOne({ email: session.user.email })
-		let userId = userExist._id
-
-		//user의 ObjectId로 user가 likes에 있는지 확인
-		let isUserLiked = await db.collection('likes').findOne({ userId })
+		//user의 Email로 user가 likes에 있는지 확인
+		let isUserLiked = await db.collection('likes').findOne({ userEmail })
 
 		if (isUserLiked) {
 			if (isUserLiked.postId.includes(queryPostId)) {
 				//좋아요를 이미 눌렀을 경우 좋아요 취소
 				await db.collection('likes').findOneAndUpdate(
-					{ userId },
+					{ userEmail },
 					{
 						$set: {
 							postId: isUserLiked.postId.filter((e: any) => e !== queryPostId)
@@ -33,14 +30,14 @@ export default async function handler(req: any, res: any) {
 				await db
 					.collection('likes')
 					.findOneAndUpdate(
-						{ userId },
+						{ userEmail },
 						{ $set: { postId: [...isUserLiked.postId, queryPostId] } }
 					)
 				return res.status(200)
 			}
 		} else {
 			//가입 후 처음으로 좋아요를 눌렀을 경우
-			let body = { userId, postId: [queryPostId] }
+			let body = { userEmail, postId: [queryPostId] }
 			await db.collection('likes').insertOne(body)
 			return res.status(200)
 		}

@@ -18,8 +18,16 @@ export default async function handler(req: any, res: any) {
 
 		if (isUserLiked) {
 			if (isUserLiked.postId.includes(queryPostId)) {
-				//TODO:좋아요를 이미 눌렀을 경우 좋아요 취소기능
-				return console.log('이미 좋아요')
+				//좋아요를 이미 눌렀을 경우 좋아요 취소
+				await db.collection('likes').findOneAndUpdate(
+					{ userId },
+					{
+						$set: {
+							postId: isUserLiked.postId.filter((e: any) => e !== queryPostId)
+						}
+					}
+				)
+				return res.status(200)
 			} else {
 				//좋아요를 누르지 않았을 경우
 				await db

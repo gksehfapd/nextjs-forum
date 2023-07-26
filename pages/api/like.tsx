@@ -24,7 +24,7 @@ export default async function handler(req: any, res: any) {
 						}
 					}
 				)
-				return res.status(200)
+				res.status(200)
 			} else {
 				//좋아요를 누르지 않았을 경우
 				await db
@@ -33,14 +33,13 @@ export default async function handler(req: any, res: any) {
 						{ userEmail },
 						{ $set: { postId: [...isUserLiked.postId, queryPostId] } }
 					)
-				return res.status(200)
+				res.status(200)
 			}
 		} else {
 			//가입 후 처음으로 좋아요를 눌렀을 경우
 			let body = { userEmail, postId: [queryPostId] }
 			await db.collection('likes').insertOne(body)
-			return res.status(200)
+			res.status(200)
 		}
-		// return res.status(200).json(result)
 	}
 }

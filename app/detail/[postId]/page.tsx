@@ -4,6 +4,7 @@ import Comment from './Comment'
 import Like from './Like'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/pages/api/auth/[...nextauth]'
+import { notFound } from 'next/navigation'
 
 export default async function Detail(props: any) {
 	//@ts-ignore
@@ -12,6 +13,10 @@ export default async function Detail(props: any) {
 	const postId = props.params.postId
 	let result = await db.collection('post').findOne({ _id: new ObjectId(`${postId}`) })
 	let likeList = await db.collection('likes').findOne({ userEmail: session.user.email })
+
+	if (result === null) {
+		return notFound()
+	}
 
 	return (
 		<div>

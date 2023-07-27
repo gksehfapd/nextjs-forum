@@ -20,7 +20,7 @@ export default function Like({ postId, likeList }) {
 	}
 	return (
 		<div>
-			{like ? (
+			{like ? ( //TODO:좋아요 누르고 새로고침 해야 초기상태 바뀌는거 수정
 				<button onClick={onLikeClick} style={{ backgroundColor: 'skyblue' }}>
 					좋아요
 				</button>

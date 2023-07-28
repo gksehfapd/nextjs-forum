@@ -12,16 +12,24 @@ export default async function Detail(props: any) {
 	const db = (await connectDB).db('forum')
 	const postId = props.params.postId
 	let result = await db.collection('post').findOne({ _id: new ObjectId(`${postId}`) })
-	let likeList = await db.collection('likes').findOne({ userEmail: session.user.email })
 
 	if (result === null) {
 		return notFound()
 	}
 
+	let likeList: any
+
+	//로그인 하지 않았을때
+	if (session === null) {
+		likeList = null
+	} else {
+		likeList = await db.collection('likes').findOne({ userEmail: session.user.email })
+	}
+
 	return (
 		<div>
 			<h4>상세페이지</h4>
-			<Like postId={postId} likeList={likeList.postId} />
+			<Like postId={postId} likeList={likeList === null ? [] : likeList.postId} />
 
 			<h4>{result?.title}</h4>
 			<p>{result?.content}</p>
